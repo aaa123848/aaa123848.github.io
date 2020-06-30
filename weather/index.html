@@ -51,7 +51,7 @@
     <script>
         const api_key = '693e595ac802fe8cdcb19040bfc8a0e4'
         function fetchData(location){
-            fetch(`http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${api_key}`)
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${api_key}`)
                 .then((response)=>{
                     if (!response.ok) {
                         throw new Error("Not 2xx response")
