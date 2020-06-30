@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBookList App</title>
+    {% load static %}
+    <link rel=stylesheet type="text/css" href="./css/index.css">
+    <link rel=stylesheet href="https://bootswatch.com/4/united/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/de74210a72.js" crossorigin="anonymous"></script>
+
+    <script src="./js/index.js" defer type='module'></script>
+    
+</head>
+<body>
+    
+    <div class='container-fluid'  style='margin-top:50px'>
+        <div class='row'>
+            <div class="col-sm-4">
+                <div class="col-sm-10" style='margin-left:25px'>
+                    <h1 class="display-6">
+                        <i class="fas fa-book-open text-primary"></i>
+                        My
+                        <span class="text-primary">Book</span>
+                        List
+                    </h1>
+                </div>
+                <from id="book-form" >
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <label for="title">Title</label>
+                            <input type="text" id="title" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <label for="title">Author</label>
+                            <input type="text" id="author" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <label for="title">ISBN#</label>
+                            <input type="text" id="isbn" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <input id='sendButton' type="submit" value="Add Book" class="btn btn-primary btn-block">
+                        </div>
+                    </div>
+                </from>
+            </div>
+            <div class="col-sm-8">
+                <table class="table table-striped mt-5">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>ISBN#</th>
+                        </tr>
+                    </thead>
+                    <tbody id="book-list"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
