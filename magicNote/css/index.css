@@ -1,0 +1,86 @@
+    body{
+            background-color:#ddbb93;
+            height:100%
+        }
+        #mainTitle{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            width: 100vw;
+            height:15vh;
+            font-size: 100px;
+            font-family:fantasy;
+        }
+        #mainBoard{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            flex-wrap:wrap;
+            width:100vw;
+            height:100%;
+            background-color:#b38766;
+        }
+
+        #mainBoard div{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            margin:20px;
+            width:25vmin;
+            height:25vmin;
+            background-color:#f3f3d6;
+            overflow:hidden;
+        }
+        #inputBoard{
+            display:flex;
+            flex-direction:column;
+            justify-content: center;
+            align-items: center;
+            width:30vmin;
+            height:30vmin;
+            position: absolute;
+            left: 0px;
+            top: 10px;
+            z-index: 999;
+            background-color:#6b513d;
+        }
+        #inputBoard div{
+            display:flex;
+            flex-wrap:wrap;
+            width:25vmin;
+            height:25vmin;
+            background-color:#6b513d;
+            margin:25px;
+            justify-content: center;
+            align-items: center;
+
+        }
+        #inputContent{
+            height:20vmin;
+            width:20vmin;
+            margin:10px;
+            background-color:white;
+            
+        }
+        #inputBoard button{
+            margin-left:10px;
+            margin-right:10px;
+        }
+
+        .button{
+            width:9vmin;
+            height:3.5vmin
+        }
+
+        #deleteBoard{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            left: 0px;
+            top: 1000px;
+            width:25vmin;
+            height:25vmin;
+            background-color:#f3f3d6;
+            overflow:hidden;
+            position: absolute;
+        }
