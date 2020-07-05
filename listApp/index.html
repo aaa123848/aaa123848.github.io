@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Member</title>
+	<link rel="stylesheet" type="text/css" href="./index.css">
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" defer></script>
+	<script src="./index.js" defer></script>
+</head>
+<body>
+	<div id="app1">
+		<div>
+			<top-banner></top-banner>
+			<add-block :todoslen='todos.length' @addlist="addList"></add-block>
+			<todo-list :todos='todos'  @delid="delId"></todo-list>
+		</div>
+	</div>
+</body>
+</html>
