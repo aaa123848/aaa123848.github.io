@@ -15,63 +15,49 @@
             background-repeat : no-repeat;
             text-align: center;
         }
+        p{
+            margin-top: 2px;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+        }
+        .header{
+            background-color : black;
+            width:100vw;
+            height : 80px;
+            text-align : center;
+            color : white;
+            font-size : 30px;
+            line-height: 70px;
+            background:rgba(0,0,0,0.4);
+        }
         .mainDomain{
-            margin : 25px;
+            margin-top:5px;
             height : 100vh;
             width : auto;
-
         }
         #showDomain{
             color:white;
             font-family:serif;
             padding:10px;
-            font-size:10vw;
+            font-size:min(10vw, 100px);
         }
     </style>
 </head>
 <body>
-      
+    <div id="banner">
+        <head-baner></head-baner>
+    </div> 
     <div class="container">
-        <div class="mainDomain">
-            <div id="inputDomain" class="form-group">
-                <div class='row' style="padding-top:10%; padding-left:10%">
-                    <div class="col-2"></div>
-                    <div class="col-6">
-                         <input type="text" class="form-control" style="width:100%"  placeholder="ex london, taipei, tokyo" v-model='inputValue'> 
-                    </div>
-                    <div class="col-4" style="text-align:left">
-                        <button type="button" class="btn btn-primary" v-on:click="showValue">Click</button>
-                    </div>
-                </div>
-            <div id="showDomain" style="margin-top:05%"></div>
+        <div id="app1" class="mainDomain">
+            <input-domain @show_weather="showWeather"></input-domain>
+            <show-domain :weather="weather"></show-domain>
         </div>
     </div>
 
-
     <script>
-        const api_key = '693e595ac802fe8cdcb19040bfc8a0e4'
-        function fetchData(location){
-            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${api_key}`)
-                .then((response)=>{
-                    if (!response.ok) {
-                        throw new Error("Not 2xx response")
-                    }else{
-                        return response.json()
-                    }
-                })
-                .then((jsondata)=>{
-                    console.log(jsondata)
-                    const showDiv = document.querySelector('#showDomain')
-                    showDiv.innerHTML = jsondata.weather[0].main
-                    changeBack()
-                })
-                .catch((msg)=>{
-                    const showDiv = document.querySelector('#showDomain')
-                    showDiv.innerHTML = 'City Does Not Exist'
-                    changeBack()
-                })
-        function changeBack(){
-            const weather = document.querySelector('#showDomain').innerHTML
+        Vue.prototype.changeBack = function(weather){
             const body = document.querySelector('body')
             let url;
             if (weather==='Clouds'){
@@ -83,17 +69,84 @@
             }
             body.style.backgroundImage = `url(${url})`;
         }
-
+        const header = {
+            template:`
+            <div class='header'> 
+            Enter Location & Check Today Weather
+            </div>
+            `,
         }
-        const inputDomain = new Vue({
+        const inputDomain = {
             delimiters:['%{', '}}'],
-            el:'#inputDomain',
-            data:{
-                inputValue : ''
+            template:`
+                <div class='row' style="padding-top:5%; padding-left:10%">
+                    <div class="col-2"></div>
+                    <div class="col-6">
+                         <input type="text" class="form-control" style="width:100%"  placeholder="ex london, taipei, tokyo" v-model='inputValue'> 
+                    </div>
+                    <div class="col-4" style="text-align:left">
+                        <button type="button" class="btn btn-primary" v-on:click="showValue">Click</button>
+                    </div>
+                </div>
+            `,
+            data(){
+                return {inputValue : '',}
             },
             methods:{
                 showValue : function(){
-                    fetchData(this.inputValue)
+                    const loc = this.inputValue
+                    this.$emit('show_weather', loc)
+                }
+            },
+        }
+
+        const showDomain = {
+            delimiters:['%{', '}}'],
+            template:`
+                <div id="showDomain" style="margin-top:5%">%{weather}}</div>
+            `,
+            props:['weather']
+        }
+
+        const banner = new Vue({
+            delimiters:['%{', '}}'],
+            el:'#banner',
+            components:{
+                'head-baner' : header,
+            },
+        })
+
+        const app1 = new Vue({
+            delimiters:['%{', '}}'],
+            el:'#app1',
+            data:{
+                weather:'123'
+            },
+            components:{
+                'input-domain': inputDomain,
+                'show-domain' : showDomain
+            },
+            methods:{
+                showWeather(location){
+                    const api_key = '693e595ac802fe8cdcb19040bfc8a0e4'
+                    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${api_key}`)
+                        .then((response)=>{
+                            if (!response.ok) {
+                                throw new Error("Not 2xx response")
+                            }else{
+                                return response.json()
+                            }
+                        })
+                        .then((jsondata)=>{
+                            console.log(jsondata)
+                            console.log(typeof this.changeBack)
+                            this.weather = jsondata.weather[0].main
+                            this.changeBack(this.weather)
+                        })
+                        .catch((msg)=>{
+                            console.log(msg)
+                            this.weather = 'City Does Not Exist' 
+                        })
                     
                 }
             }

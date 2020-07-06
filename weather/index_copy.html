@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel=stylesheet type="text/css" href="./css/bootstrap.min.css">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <style>
+        body{
+            background-image: url("./image/background.jpg");
+            background-attachment: fixed;
+            background-size: cover; 
+            background-position: top;
+            background-repeat : no-repeat;
+            text-align: center;
+        }
+        .mainDomain{
+            margin : 25px;
+            height : 100vh;
+            width : auto;
+
+        }
+        #showDomain{
+            color:white;
+            font-family:serif;
+            padding:10px;
+            font-size:10vw;
+        }
+    </style>
+</head>
+<body>
+      
+    <div class="container">
+        <div class="mainDomain">
+            <div id="inputDomain" class="form-group">
+                <div class='row' style="padding-top:10%; padding-left:10%">
+                    <div class="col-2"></div>
+                    <div class="col-6">
+                         <input type="text" class="form-control" style="width:100%"  placeholder="ex london, taipei, tokyo" v-model='inputValue'> 
+                    </div>
+                    <div class="col-4" style="text-align:left">
+                        <button type="button" class="btn btn-primary" v-on:click="showValue">Click</button>
+                    </div>
+                </div>
+            <div id="showDomain" style="margin-top:05%"></div>
+        </div>
+    </div>
+
+
+    <script>
+        const api_key = '693e595ac802fe8cdcb19040bfc8a0e4'
+        function fetchData(location){
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${api_key}`)
+                .then((response)=>{
+                    if (!response.ok) {
+                        throw new Error("Not 2xx response")
+                    }else{
+                        return response.json()
+                    }
+                })
+                .then((jsondata)=>{
+                    console.log(jsondata)
+                    const showDiv = document.querySelector('#showDomain')
+                    showDiv.innerHTML = jsondata.weather[0].main
+                    changeBack()
+                })
+                .catch((msg)=>{
+                    const showDiv = document.querySelector('#showDomain')
+                    showDiv.innerHTML = 'City Does Not Exist'
+                    changeBack()
+                })
+        function changeBack(){
+            const weather = document.querySelector('#showDomain').innerHTML
+            const body = document.querySelector('body')
+            let url;
+            if (weather==='Clouds'){
+                url = "./image/clouds.jpg"
+            }else if(weather ==='Rain'){
+                url = "./image/rain.jpg"
+            }else{
+                url = "./image/background.jpg"
+            }
+            body.style.backgroundImage = `url(${url})`;
+        }
+
+        }
+        const inputDomain = new Vue({
+            delimiters:['%{', '}}'],
+            el:'#inputDomain',
+            data:{
+                inputValue : ''
+            },
+            methods:{
+                showValue : function(){
+                    fetchData(this.inputValue)
+                    
+                }
+            }
+        })
+    </script>
+
+</body>
+</html>
+
